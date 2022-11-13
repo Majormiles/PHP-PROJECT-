@@ -19,6 +19,9 @@ SET time_zone = "+00:00";
 --
 -- Database: `onlinefoodphp`
 --
+-- Creating database by default by just using this file
+-- The user will have to only import this file without having to create the onlinefood database first
+CREATE DATABASE IF NOT EXISTS onlinefoodphp;
 
 -- --------------------------------------------------------
 
