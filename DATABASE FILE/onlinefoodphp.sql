@@ -29,7 +29,7 @@ CREATE DATABASE IF NOT EXISTS onlinefoodphp;
 -- Table structure for table `admin`
 --
 
-CREATE TABLE `admin` (
+CREATE TABLE `onlinefoodphp`.`admin` (
   `adm_id` int(222) NOT NULL,
   `username` varchar(222) NOT NULL,
   `password` varchar(222) NOT NULL,
@@ -42,7 +42,7 @@ CREATE TABLE `admin` (
 -- Dumping data for table `admin`
 --
 
-INSERT INTO `admin` (`adm_id`, `username`, `password`, `email`, `code`, `date`) VALUES
+INSERT INTO `onlinefoodphp`.`admin` (`adm_id`, `username`, `password`, `email`, `code`, `date`) VALUES
 (1, 'admin', 'CAC29D7A34687EB14B37068EE4708E7B', 'admin@mail.com', '', '2022-05-27 13:21:52');
 
 -- --------------------------------------------------------
@@ -51,7 +51,7 @@ INSERT INTO `admin` (`adm_id`, `username`, `password`, `email`, `code`, `date`) 
 -- Table structure for table `dishes`
 --
 
-CREATE TABLE `dishes` (
+CREATE TABLE `onlinefoodphp`.`dishes` (
   `d_id` int(222) NOT NULL,
   `rs_id` int(222) NOT NULL,
   `title` varchar(222) NOT NULL,
@@ -64,7 +64,7 @@ CREATE TABLE `dishes` (
 -- Dumping data for table `dishes`
 --
 
-INSERT INTO `dishes` (`d_id`, `rs_id`, `title`, `slogan`, `price`, `img`) VALUES
+INSERT INTO `onlinefoodphp`.`dishes` (`d_id`, `rs_id`, `title`, `slogan`, `price`, `img`) VALUES
 (1, 1, 'Yorkshire Lamb Patties', 'Lamb patties which melt in your mouth, and are quick and easy to make. Served hot with a crisp salad.', '14.00', '62908867a48e4.jpg'),
 (2, 1, 'Lobster Thermidor', 'Lobster Thermidor is a French dish of lobster meat cooked in a rich wine sauce, stuffed back into a lobster shell, and browned.', '36.00', '629089fee52b9.jpg'),
 (3, 4, 'Chicken Madeira', 'Chicken Madeira, like Chicken Marsala, is made with chicken, mushrooms, and a special fortified wine. But, the wines are different;', '23.00', '62908bdf2f581.jpg'),
@@ -88,7 +88,7 @@ INSERT INTO `dishes` (`d_id`, `rs_id`, `title`, `slogan`, `price`, `img`) VALUES
 -- Table structure for table `remark`
 --
 
-CREATE TABLE `remark` (
+CREATE TABLE `onlinefoodphp`.`remark` (
   `id` int(11) NOT NULL,
   `frm_id` int(11) NOT NULL,
   `status` varchar(255) NOT NULL,
@@ -100,7 +100,7 @@ CREATE TABLE `remark` (
 -- Dumping data for table `remark`
 --
 
-INSERT INTO `remark` (`id`, `frm_id`, `status`, `remark`, `remarkDate`) VALUES
+INSERT INTO `onlinefoodphp`.`remark` (`id`, `frm_id`, `status`, `remark`, `remarkDate`) VALUES
 (1, 2, 'in process', 'none', '2022-05-01 05:17:49'),
 (2, 3, 'in process', 'none', '2022-05-27 11:01:30'),
 (3, 2, 'closed', 'thank you for your order!', '2022-05-27 11:11:41'),
@@ -120,7 +120,7 @@ INSERT INTO `remark` (`id`, `frm_id`, `status`, `remark`, `remarkDate`) VALUES
 -- Table structure for table `restaurant`
 --
 
-CREATE TABLE `restaurant` (
+CREATE TABLE `onlinefoodphp`.`restaurant` (
   `rs_id` int(222) NOT NULL,
   `c_id` int(222) NOT NULL,
   `title` varchar(222) NOT NULL,
@@ -139,7 +139,7 @@ CREATE TABLE `restaurant` (
 -- Dumping data for table `restaurant`
 --
 
-INSERT INTO `restaurant` (`rs_id`, `c_id`, `title`, `email`, `phone`, `url`, `o_hr`, `c_hr`, `o_days`, `address`, `image`, `date`) VALUES
+INSERT INTO `onlinefoodphp`.`restaurant` (`rs_id`, `c_id`, `title`, `email`, `phone`, `url`, `o_hr`, `c_hr`, `o_days`, `address`, `image`, `date`) VALUES
 (1, 1, 'North Street Tavern', 'nthavern@mail.com', '3547854700', 'www.northstreettavern.com', '8am', '8pm', 'mon-sat', '1128 North St, White Plains', '6290877b473ce.jpg', '2022-05-27 08:10:35'),
 (2, 2, 'Eataly', 'eataly@gmail.com', '0557426406', 'www.eataly.com', '11am', '9pm', 'Mon-Sat', '800 Boylston St, Boston', '606d720b5fc71.jpg', '2022-05-27 08:06:41'),
 (3, 3, 'Nan Xiang Xiao Long Bao', 'nanxiangbao45@mail.com', '1458745855', 'www.nanxiangbao45.com', '9am', '8pm', 'mon-sat', 'Queens, New York', '6290860e72d1e.jpg', '2022-05-27 08:04:30'),
@@ -151,7 +151,7 @@ INSERT INTO `restaurant` (`rs_id`, `c_id`, `title`, `email`, `phone`, `url`, `o_
 -- Table structure for table `res_category`
 --
 
-CREATE TABLE `res_category` (
+CREATE TABLE `onlinefoodphp`.`res_category` (
   `c_id` int(222) NOT NULL,
   `c_name` varchar(222) NOT NULL,
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
@@ -161,7 +161,7 @@ CREATE TABLE `res_category` (
 -- Dumping data for table `res_category`
 --
 
-INSERT INTO `res_category` (`c_id`, `c_name`, `date`) VALUES
+INSERT INTO `onlinefoodphp`.`res_category` (`c_id`, `c_name`, `date`) VALUES
 (1, 'Continental', '2022-05-27 08:07:35'),
 (2, 'Italian', '2021-04-07 08:45:23'),
 (3, 'Chinese', '2021-04-07 08:45:25'),
@@ -173,7 +173,7 @@ INSERT INTO `res_category` (`c_id`, `c_name`, `date`) VALUES
 -- Table structure for table `users`
 --
 
-CREATE TABLE `users` (
+CREATE TABLE `onlinefoodphp`.`users` (
   `u_id` int(222) NOT NULL,
   `username` varchar(222) NOT NULL,
   `f_name` varchar(222) NOT NULL,
@@ -190,7 +190,7 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`u_id`, `username`, `f_name`, `l_name`, `email`, `phone`, `password`, `address`, `status`, `date`) VALUES
+INSERT INTO `onlinefoodphp`.`users` (`u_id`, `username`, `f_name`, `l_name`, `email`, `phone`, `password`, `address`, `status`, `date`) VALUES
 (1, 'eric', 'Eric', 'Lopez', 'eric@mail.com', '1458965547', 'a32de55ffd7a9c4101a0c5c8788b38ed', '87 Armbrester Drive', 1, '2022-05-27 08:40:36'),
 (2, 'harry', 'Harry', 'Holt', 'harryh@mail.com', '3578545458', 'bc28715006af20d0e961afd053a984d9', '33 Stadium Drive', 1, '2022-05-27 08:41:07'),
 (3, 'james', 'James', 'Duncan', 'james@mail.com', '0258545696', '58b2318af54435138065ee13dd8bea16', '67 Hiney Road', 1, '2022-05-27 08:41:37'),
@@ -204,7 +204,7 @@ INSERT INTO `users` (`u_id`, `username`, `f_name`, `l_name`, `email`, `phone`, `
 -- Table structure for table `users_orders`
 --
 
-CREATE TABLE `users_orders` (
+CREATE TABLE `onlinefoodphp`.`users_orders` (
   `o_id` int(222) NOT NULL,
   `u_id` int(222) NOT NULL,
   `title` varchar(222) NOT NULL,
@@ -218,7 +218,7 @@ CREATE TABLE `users_orders` (
 -- Dumping data for table `users_orders`
 --
 
-INSERT INTO `users_orders` (`o_id`, `u_id`, `title`, `quantity`, `price`, `status`, `date`) VALUES
+INSERT INTO `onlinefoodphp`.`users_orders` (`o_id`, `u_id`, `title`, `quantity`, `price`, `status`, `date`) VALUES
 (1, 4, 'Spring Rolls', 2, '6.00', 'rejected', '2022-05-27 11:43:26'),
 (2, 4, 'Prawn Crackers', 1, '7.00', 'closed', '2022-05-27 11:11:41'),
 (3, 5, 'Chicken Madeira', 1, '23.00', 'closed', '2022-05-27 11:42:35'),
