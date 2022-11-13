@@ -236,43 +236,43 @@ INSERT INTO `onlinefoodphp`.`users_orders` (`o_id`, `u_id`, `title`, `quantity`,
 --
 -- Indexes for table `admin`
 --
-ALTER TABLE `admin`
+ALTER TABLE `onlinefoodphp`.`admin`
   ADD PRIMARY KEY (`adm_id`);
 
 --
 -- Indexes for table `dishes`
 --
-ALTER TABLE `dishes`
+ALTER TABLE `onlinefoodphp`.`dishes`
   ADD PRIMARY KEY (`d_id`);
 
 --
 -- Indexes for table `remark`
 --
-ALTER TABLE `remark`
+ALTER TABLE `onlinefoodphp`.`remark`
   ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `restaurant`
 --
-ALTER TABLE `restaurant`
+ALTER TABLE `onlinefoodphp`.`restaurant`
   ADD PRIMARY KEY (`rs_id`);
 
 --
 -- Indexes for table `res_category`
 --
-ALTER TABLE `res_category`
+ALTER TABLE `onlinefoodphp`.`res_category`
   ADD PRIMARY KEY (`c_id`);
 
 --
 -- Indexes for table `users`
 --
-ALTER TABLE `users`
+ALTER TABLE `onlinefoodphp`.`users`
   ADD PRIMARY KEY (`u_id`);
 
 --
 -- Indexes for table `users_orders`
 --
-ALTER TABLE `users_orders`
+ALTER TABLE `onlinefoodphp`.`users_orders`
   ADD PRIMARY KEY (`o_id`);
 
 --
@@ -282,37 +282,37 @@ ALTER TABLE `users_orders`
 --
 -- AUTO_INCREMENT for table `admin`
 --
-ALTER TABLE `admin`
+ALTER TABLE `onlinefoodphp`.`admin`
   MODIFY `adm_id` int(222) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `dishes`
 --
-ALTER TABLE `dishes`
+ALTER TABLE `onlinefoodphp`.`dishes`
   MODIFY `d_id` int(222) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 --
 -- AUTO_INCREMENT for table `remark`
 --
-ALTER TABLE `remark`
+ALTER TABLE `onlinefoodphp`.`remark`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 --
 -- AUTO_INCREMENT for table `restaurant`
 --
-ALTER TABLE `restaurant`
+ALTER TABLE `onlinefoodphp`.`restaurant`
   MODIFY `rs_id` int(222) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `res_category`
 --
-ALTER TABLE `res_category`
+ALTER TABLE `onlinefoodphp`.`res_category`
   MODIFY `c_id` int(222) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `users`
 --
-ALTER TABLE `users`
+ALTER TABLE `onlinefoodphp`.`users`
   MODIFY `u_id` int(222) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 --
 -- AUTO_INCREMENT for table `users_orders`
 --
-ALTER TABLE `users_orders`
+ALTER TABLE `onlinefoodphp`.`users_orders`
   MODIFY `o_id` int(222) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
