@@ -1,8 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <?php
-include("connection/connect.php");  
-error_reporting(0);  
+include("connection/connect.php");
+
+//only use the function below if you are in production mode, but for development mode
+// you have to see the errors
+// error_reporting(0);  
 session_start(); 
 
 ?>
@@ -35,7 +38,7 @@ session_start();
                             
                            
 							<?php
-						if(empty($_SESSION["user_id"])) // if user is not login
+						if(empty($_SESSION["user_id"])) // if user or admin is not login
 							{
 								echo '<li class="nav-item"><a href="login.php" class="nav-link active">Login</a> </li>
 							  <li class="nav-item"><a href="registration.php" class="nav-link active">Register</a> </li>';
@@ -279,13 +282,14 @@ session_start();
                             </ul>
                         </div>
                         <div class="col-xs-12 col-sm-4 address color-gray">
-                                    <h5>Address</h5>
-                                    <p>1086 HO, Volta Region</p>
-                                    <h5>Phone: 0247466205/0592666268</a></h5> </div>
-                                <div class="col-xs-12 col-sm-5 additional-info color-gray">
-                                    <h5>Addition informations</h5>
-                                   <p>Join thousands of other restaurants who benefit from having partnered with us.</p>
-                                </div>
+                            <h5>Address</h5>
+                            <p>1086 HO, Volta Region</p>
+                            <h5>Phone: 0247466205/0592666268</a></h5> 
+                        </div>
+                        <div class="col-xs-12 col-sm-5 additional-info color-gray">
+                            <h5>Addition informations</h5>
+                            <p>Join thousands of other restaurants who benefit from having partnered with us.</p>
+                        </div>
                     </div>
                 </div>
           

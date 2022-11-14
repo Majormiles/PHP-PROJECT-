@@ -1,125 +1,127 @@
-<!DOCTYPE html>
-<html lang="en">
 <?php
-
-session_start(); 
-error_reporting(0); 
 include("connection/connect.php"); 
 if(isset($_POST['submit'] )) 
 {
-     if(empty($_POST['firstname']) || 
-   	    empty($_POST['lastname'])|| 
-		empty($_POST['email']) ||  
-		empty($_POST['phone'])||
-		empty($_POST['password'])||
-		empty($_POST['cpassword']) ||
-		empty($_POST['cpassword']))
-		{
-			$message = "All fields must be Required!";
+     if( empty($_POST['firstname']) || empty($_POST['lastname']) || 
+         empty($_POST['email']) || empty($_POST['phone']) ||
+         empty($_POST['password']) || empty($_POST['cpassword']) ||
+         empty($_POST['cpassword']) ){
+			$message = "All fields are Required!";
 		}
 	else
 	{
-	
-	$check_username= mysqli_query($db, "SELECT username FROM users where username = '".$_POST['username']."' ");
-	$check_email = mysqli_query($db, "SELECT email FROM users where email = '".$_POST['email']."' ");
-		
+      $check_username= mysqli_query($db, "SELECT username FROM users where username = '".$_POST['username']."' ");
+      $check_email = mysqli_query($db, "SELECT email FROM users where email = '".$_POST['email']."' ");
+      
+      //in later developments, we will make changes to the conditional statements below
+      if($_POST['password'] != $_POST['cpassword']){ 	
+         echo "<script>alert('Password not match');</script>"; 
+      }elseif(strlen($_POST['password']) < 6){
+         echo "<script>alert('Password Must be >=6');</script>"; 
+      }elseif(strlen($_POST['phone']) < 10){
+         echo "<script>alert('Invalid phone number!');</script>"; 
+      }elseif (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)){
+         echo "<script>alert('Invalid email address please type a valid email!');</script>"; 
+      }elseif(mysqli_num_rows($check_username) > 0){
+         echo "<script>alert('Username Already exists!');</script>"; 
+      }elseif(mysqli_num_rows($check_email) > 0){
+         echo "<script>alert('Email Already exists!');</script>"; 
+      }else{
+         
+      
+         // $mql = "INSERT INTO users(username,f_name,l_name,email,phone,password,address) VALUES('".$_POST['username']."','".$_POST['firstname']."','".$_POST['lastname']."','".$_POST['email']."','".$_POST['phone']."','".md5($_POST['password'])."','".$_POST['address']."')";
+         // mysqli_query($db, $mql);
 
-	
-	if($_POST['password'] != $_POST['cpassword']){  
-       	
-          echo "<script>alert('Password not match');</script>"; 
-    }
-	elseif(strlen($_POST['password']) < 6)  
-	{
-      echo "<script>alert('Password Must be >=6');</script>"; 
-	}
-	elseif(strlen($_POST['phone']) < 10)  
-	{
-      echo "<script>alert('Invalid phone number!');</script>"; 
-	}
+         /*
+            There are two options for data entry in this section. One is for using prepared statements, another is with the use of an unprepared statement as above
+            I also will be making use of two methods, ur methods are uncommented, but mine will be commented so you follow the procedure u want
+         */
 
-    elseif (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) 
-    {
-          echo "<script>alert('Invalid email address please type a valid email!');</script>"; 
-    }
-	elseif(mysqli_num_rows($check_username) > 0) 
-     {
-       echo "<script>alert('Username Already exists!');</script>"; 
-     }
-	elseif(mysqli_num_rows($check_email) > 0) 
-     {
-       echo "<script>alert('Email Already exists!');</script>"; 
-     }
-	else{
-       
-	 
-	$mql = "INSERT INTO users(username,f_name,l_name,email,phone,password,address) VALUES('".$_POST['username']."','".$_POST['firstname']."','".$_POST['lastname']."','".$_POST['email']."','".$_POST['phone']."','".md5($_POST['password'])."','".$_POST['address']."')";
-	mysqli_query($db, $mql);
-	
-		 header("refresh:0.1;url=login.php");
-    }
-	}
+         // --using mysqli functions
+         //--------------------------------------------------------
+         //          METHOD ONE, PREPARED STATEMENTS              |
+         //  (PROCEDURAL FORMAT ABOVE, OBJECT ORIENTED COMMENTED) |
+         //--------------------------------------------------------
+         //an sql prepared statement to prevent sql injection
+         $mql = "INSERT INTO users(username, f_name, l_name, email, phone, password, address)
+               VALUES (?,?,?,?,?,?,?)
+         ";
 
+         //prepare the statement for binding
+         //procedural requires you separately bind the database connection first before the actual statement bind
+         $stmt = mysqli_stmt_init($db);
+         mysqli_stmt_prepare($stmt, $mql);
+         // $stmt = $db->prepare($mql)
+         
+         //bind the parameters
+         //the very first section is the data types in ur sql
+         /* 
+            ----------------
+            Data type table
+            ----------------
+            s -> String [Char, VarChar, Enum, Text, Date]
+            d -> Decimal [Decimal, Float, Double, Real]
+            i -> Integer [TinyInt, LongInt, Int, Enum]
+            b -> Blob   [Boolean]
+
+            These are the only data types passed through the bind statement
+         */
+         mysqli_stmt_bind_param($stmt, "sssssss", $_POST['username'],$_POST["firstname"], $_POST["lastname"], $_POST["email"], $_POST["phone"], MD5($_POST["password"]), $_POST["address"]);
+         // $db->bind_param("sssssss", $_POST['username'],$_POST["firstname"], $_POST["lastname"], $_POST["email"], $_POST["phone"], MD5($_POST["password"]), $_POST["address"])
+
+         //execute the bind and send data into the database
+         mysqli_stmt_execute($stmt);
+         // $stmt->execute();
+
+         /*
+            // METHOD 2
+            // WITHOUT PREPARED STATEMENT
+            
+            $mql = "INSERT INTO users(username, f_name, l_name, email, phone, password, address)
+               VALUES ({$_POST['username']},{$_POST["firstname"]}, {$_POST["lastname"]}, {$_POST["email"]}, {$_POST["phone"]}, MD5({$_POST["password"]}), {$_POST["address"]})
+            ";
+
+            //parse data into database and check if it was successful
+            if(mysqli_query($db, $mql)){
+            // if($db->query($mql)){
+               header("location: login.php");
+            }else{
+               echo "<script>alert('An error occured. Your data was not added. Please try again later');</script>";
+            }
+
+            //The relevance of prepared statements over the unprepared one is for us to prevent what is called 'SQL injection'
+            //someone could just use the input elements to inject a code into your database and extract data from it
+         */
+
+         //rather send it directly to where u want than refresh the page, it delays it slightly
+         //  header("refresh:0.1;url=login.php");
+         header("location: login.php");
+      }
+	}
 }
-
-
 ?>
 
-
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <?php require_once($rootPath."/components/defMeta.php")?>
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" href="#">
+    
+    <!-- Page Title -->
     <title>Registration</title>
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/font-awesome.min.css" rel="stylesheet">
-    <link href="css/animsition.min.css" rel="stylesheet">
-    <link href="css/animate.css" rel="stylesheet">
+    
+    <?php require_once($rootPath."/components/defLinks.php")?>
+    <link rel="icon" href="#">
+
+    <!-- Page style sheet -->
     <link href="css/style.css" rel="stylesheet"> </head>
 <body>
 <div style=" background-image: url('images/img/pimg.jpg');">
-         <header id="header" class="header-scroll top-header headrom">
-            <nav class="navbar navbar-dark">
-               <div class="container">
-                  <button class="navbar-toggler hidden-lg-up" type="button" data-toggle="collapse" data-target="#mainNavbarCollapse">&#9776;</button>
-                  <a class="navbar-brand" href="index.php"> <img class="img-rounded" src="images/icn.png" alt=""> </a>
-                  <div class="collapse navbar-toggleable-md  float-lg-right" id="mainNavbarCollapse">
-                     <ul class="nav navbar-nav">
-							<li class="nav-item"> <a class="nav-link active" href="index.php">Home <span class="sr-only">(current)</span></a> </li>
-                            <li class="nav-item"> <a class="nav-link active" href="restaurants.php">Restaurants <span class="sr-only"></span></a> </li>
-                            
-							<?php
-						if(empty($_SESSION["user_id"]))
-							{
-								echo '<li class="nav-item"><a href="login.php" class="nav-link active">Login</a> </li>
-							  <li class="nav-item"><a href="registration.php" class="nav-link active">Register</a> </li>';
-							}
-						else
-							{
-									
-									
-										echo  '<li class="nav-item"><a href="your_orders.php" class="nav-link active">My Orders</a> </li>';
-									echo  '<li class="nav-item"><a href="logout.php" class="nav-link active">Logout</a> </li>';
-							}
-
-						?>
-							 
-                        </ul>
-                  </div>
-               </div>
-            </nav>
-         </header>
+         <!-- Nav Bar -->
+         <?php include_once($rootPath."/components/header.php") ?>
+         
          <div class="page-wrapper">
-            
-               <div class="container">
-                  <ul>
-                    
-                    
-                  </ul>
-               </div>
             
             <section class="contact-page inner-page">
                <div class="container ">
@@ -128,9 +130,9 @@ if(isset($_POST['submit'] ))
                         <div class="widget" >
                            <div class="widget-body">
                             
-							  <form action="" method="post">
+							         <form action="" method="post">
                                  <div class="row">
-								  <div class="form-group col-sm-12">
+								            <div class="form-group col-sm-12">
                                        <label for="exampleInputEmail1">User-Name</label>
                                        <input class="form-control" type="text" name="username" id="example-text-input"> 
                                     </div>
@@ -158,7 +160,7 @@ if(isset($_POST['submit'] ))
                                        <label for="exampleInputPassword1">Confirm password</label>
                                        <input type="password" class="form-control" name="cpassword" id="exampleInputPassword2"> 
                                     </div>
-									 <div class="form-group col-sm-12">
+									         <div class="form-group col-sm-12">
                                        <label for="exampleTextarea">Delivery Address</label>
                                        <textarea class="form-control" id="exampleTextarea"  name="address" rows="3"></textarea>
                                     </div>
@@ -172,68 +174,20 @@ if(isset($_POST['submit'] ))
                                  </div>
                               </form>
                   
-						   </div>
-           
+						         </div>
                         </div>
-                     
                      </div>
-                    
                   </div>
                </div>
             </section>
             
-      
-            <footer class="footer">
-               <div class="container">
-           
-                  <div class="row bottom-footer">
-                     <div class="container">
-                        <div class="row">
-                           <div class="col-xs-12 col-sm-3 payment-options color-gray">
-                              <h5>Payment Options</h5>
-                              <ul>
-                                 <li>
-                                    <a href="#"> <img src="images/paypal.png" alt="Paypal"> </a>
-                                 </li>
-                                 <li>
-                                    <a href="#"> <img src="images/mastercard.png" alt="Mastercard"> </a>
-                                 </li>
-                                 <li>
-                                    <a href="#"> <img src="images/maestro.png" alt="Maestro"> </a>
-                                 </li>
-                                 <li>
-                                    <a href="#"> <img src="images/stripe.png" alt="Stripe"> </a>
-                                 </li>
-                                 <li>
-                                    <a href="#"> <img src="images/bitcoin.png" alt="Bitcoin"> </a>
-                                 </li>
-                              </ul>
-                           </div>
-                           <div class="col-xs-12 col-sm-4 address color-gray">
-                                    <h5>Address</h5>
-                                    <p>1086 Ho, Volta Region</p>
-                                    <h5>Phone:  0247466205/0592666268</a></h5> </div>
-                                <div class="col-xs-12 col-sm-5 additional-info color-gray">
-                                    <h5>Addition informations</h5>
-                                   <p>Join thousands of other restaurants who benefit from having partnered with us.</p>
-                                </div>
-                        </div>
-                     </div>
-                  </div>
-      
-               </div>
-            </footer>
+            <!-- Footer -->
+            <?php include_once($rootPath.'/components/footer.php'); ?>
          
          </div>
-       
-    <script src="js/jquery.min.js"></script>
-    <script src="js/tether.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/animsition.min.js"></script>
-    <script src="js/bootstrap-slider.min.js"></script>
-    <script src="js/jquery.isotope.min.js"></script>
-    <script src="js/headroom.js"></script>
-    <script src="js/foodpicky.min.js"></script>
+
+      <!-- Default javascript files -->
+      <?php include_once($rootPath.'/components/defScripts.php'); ?>
 </body>
 
 </html>

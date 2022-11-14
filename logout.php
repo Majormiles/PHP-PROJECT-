@@ -1,7 +1,7 @@
 <?php
-session_start(); 
-session_destroy(); 
-$url = 'login.php';
-header('Location: ' . $url); 
+//destroy the sesssion opened in the browser
+session_destroy();
 
+//redirect to login page
+header('Location: login.php'); 
 ?>
